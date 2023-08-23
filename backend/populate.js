@@ -73,10 +73,20 @@ const upLoadTarget = async () => {
 const upLoadStage = async (name, url) => {
     const stageName = name.split('_')[0]
 
-    const newStage = new Stage({
+    try {
+        const newStage = new Stage({
+            name: stageName,
+            stageUrl: url
+        })
+        await newStage.save()
+    } catch (err) {
+        console.log(err)
+    }
 
-    })
-    console.log(stageName)
+    
+
+
+    console.log(`${stageName} saved successfully`)
 }
 
 

@@ -7,7 +7,7 @@ const StageModelSchema = new Schema({
         required: true,
 
     },
-    stageImg: {
+    stageUrl: {
         type:String,
 
     },
@@ -15,10 +15,10 @@ const StageModelSchema = new Schema({
         type:[
             {
                 type:Schema.ObjectId,
-                ref: 'Targets'
+                ref: 'Target'
             }
         ],
-        required: true
+        
     }
 })
 
