@@ -10,6 +10,7 @@ const mongodb = process.env.MONGO_LOGIN
 const main = async () => {
     try {
         mongoose.connect(mongodb)
+        console.log('mongo connected')
     } catch (err) {
         console.log(err)
     }
