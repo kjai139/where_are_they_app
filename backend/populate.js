@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3')
-
+const mongoose = require('mongoose')
 
 const path = require('path')
 const fs = require('fs')
@@ -9,6 +9,8 @@ const util = require('util')
 
 const Stage = require('./models/stageModel')
 const Target = require('./models/targetModel')
+
+
 
 
 
@@ -23,6 +25,20 @@ const s3Client = new S3Client({
 
 const stagesFolderPath = './assets/stages'
 const targetFolderPath = './assets/targets'
+
+const mongodb = process.env.MONGO_LOGIN
+
+const main = async () => {
+    try {
+        await mongoose.connect(mongodb)
+        console.log('mongo connected')
+        readMapDirectory(stagesFolderPath)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+main()
 
 const uploadToS3 = async (filePath) => {
     const fileName = path.basename(filePath).replace(/ /g, '_')
@@ -51,34 +67,40 @@ const uploadToS3 = async (filePath) => {
         
 
         console.log(`upload to s3 successful, url:${url}`)
-        return url
+        return {fileName, url}
     } catch (err) {
         console.log(err)
     }
 }
 
-const upLoadTarget = async () => {
+const upLoadTarget = async (obj) => {
+    const targetName = obj.fileName.split('.')[0]
     try {
         const newTarget = new Target({
-
+            name: targetName,
+            imgUrl: obj.url
         })
-    } catch (err) {
 
+        await newTarget.save()
+        console.log(`target ${targetName} saved to mongo`)
+    } catch (err) {
+        console.log(err)
     }
 }
 
 
 
 
-const upLoadStage = async (name, url) => {
-    const stageName = name.split('_')[0]
+const upLoadStage = async (obj) => {
+    const stageName = obj.fileName.split('_')[0]
 
     try {
         const newStage = new Stage({
             name: stageName,
-            stageUrl: url
+            stageUrl: obj.url
         })
         await newStage.save()
+        console.log(`stage ${stageName} saved to mongo`)
     } catch (err) {
         console.log(err)
     }
@@ -132,8 +154,10 @@ const readMapDirectory = async (directoryPath) => {
                     const files = await readdirAsync(mapPath)
                     for (const file of files) {
                         const targetFilePath = path.join(mapPath, file)
-                        const s3Url = await uploadToS3(targetFilePath)
+                        const s3Url = await uploadToS3(targetFilePath, )
                         console.log('s3url ready:', s3Url)
+
+                        upLoadStage(s3Url)
                     }
 
                 } catch (err) {
@@ -151,12 +175,29 @@ const readMapDirectory = async (directoryPath) => {
                 //         console.log('s3url ready:', s3Url)
                 //     })
                 // })
-            } else {
-                console.log('not map')
+            } else if (fs.statSync(mapPath).isDirectory() && subdir === 'targets') {
+                try {
+                    const files = await readdirAsync(mapPath)
+                    for (const file of files) {
+                        const targetFilePath = path.join(mapPath, file)
+                        const s3Url = await uploadToS3(targetFilePath)
+                        console.log('s3url ready:', s3Url)
+
+                        upLoadTarget(s3Url)
+                        
+                        
+                    }
+                    
+                } catch (err) {
+
+                }
+            }
+            
+            else {
+                console.log('not map or targets')
             }
         }
         
     }
 }
 
-readMapDirectory(stagesFolderPath)

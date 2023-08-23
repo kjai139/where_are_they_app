@@ -13,11 +13,11 @@ const TargetSchema = new Schema({
     },
     cordsX: {
         type: Number,
-        required: true,
+       
     },
     cordsY: {
         type:Number,
-        required: true
+        
     }
 })
 
