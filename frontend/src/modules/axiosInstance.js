@@ -6,7 +6,7 @@ let baseURL
 if (process.env.NODE_ENV === 'production') {
     baseURL = ''
 } else {
-    baseURL = 'https://localhost:4000'
+    baseURL = 'http://localhost:4000'
 }
 
 const instance = axios.create({

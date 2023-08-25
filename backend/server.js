@@ -1,11 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config()
-
+const apiRouter = require('./routes/api')
+const cors = require('cors')
 
 const app = express()
 const port = process.env.PORT || 4000
 const mongodb = process.env.MONGO_LOGIN
+const allowedOrigins = ['http://localhost:3000']
 
 const main = async () => {
     try {
@@ -17,6 +19,13 @@ const main = async () => {
 }
 
 main()
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true,
+}))
+
+app.use(express.json())
+app.use('/api', apiRouter)
 
 app.listen(port, () => {
     console.log(`server running on port ${port}`)
