@@ -1,9 +1,23 @@
+/* font-family: 'Lilita One', cursive;
+font-family: 'Noto Sans', sans-serif;
+font-family: 'Roboto', sans-serif; */
+
 :root {
     --borderR: 8px;
+    --stageViewBgColor: #1e293b;
+    --headersFont: 'Lilita One', cursive;
+    
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: var(--headersFont);
+    font-weight: lighter;
+    
 }
 
 .stages-outer-cont {
-    display:flex
+    display:flex;
+    gap:1rem
 }
 
 .stages-left, .stages-right {
@@ -14,12 +28,67 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    justify-content: center;
     
 }
 
-.stage-btn {
-    background-color: inherit;
-    padding: .5rem;
-    width: 100%;
+.stages-left {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    background-color: var(--stageViewBgColor);
+    border: 10px solid #0CCDA3;
     border-radius: var(--borderR);
+    height: 627px;
+
+}
+
+
+
+.stages-left > h2 {
+    -webkit-text-stroke: 1px white;
+}
+
+.stage-btn {
+    padding: 1rem;
+    font-size: 1rem;
+    width: 100%;
+    border: 2px solid var(--stageViewBgColor);
+    font-weight: bold;
+    background: linear-gradient(45deg, #0CCDA3, #C1FCD3);
+}
+
+.stage-btn:hover, .stages-nav-btn:hover {
+    cursor: pointer;
+    background-color: antiquewhite;
+    filter: brightness(85%);
+}
+
+.stage-btn.selectedBtn {
+    pointer-events: none;
+    filter: brightness(50%);
+}
+
+.stage-btn:active {
+    transform: scale(0.95);
+}
+
+.stages-nav-cont {
+    margin-left: auto;
+}
+
+.stages-nav-btn {
+    padding: 1rem;
+    font-size: 1rem;
+    width: 100%;
+    border: 2px solid var(--stageViewBgColor);
+    font-weight: bold;
+    background: linear-gradient(45deg, #0CCDA3, #C1FCD3);
+}
+
+
+@media screen and (max-width: 1024px) {
+    .stages-left {
+        height: auto;
+    }
 }

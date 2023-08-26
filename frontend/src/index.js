@@ -8,11 +8,16 @@ import {
   RouterProvider
 } from "react-router-dom"
 import HomePage from './pages/homepage/Homepage';
+import StagePage from './pages/stagepage/Stagepage';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App><HomePage></HomePage></App>
+  },
+  {
+    path:'/map/:id',
+    element:<App><StagePage></StagePage></App>
   }
 ])
 
