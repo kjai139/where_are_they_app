@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axiosInstance from '../../modules/axiosInstance'
 import './Homepage.css'
 import StageSelectButton from "../../components/buttons/stageSelectBtn";
 import { useNavigate } from "react-router-dom";
+import MyContext from "../../components/context/MyContext";
 
 
 const HomePage = () => {
@@ -11,6 +12,8 @@ const HomePage = () => {
     const [selectedStage, setSelectedStage] = useState()
     const [selectedBtn, setSelectedBtn] = useState()
     const navigate = useNavigate()
+
+    const {chosenStage, setChosenStage} = useContext(MyContext)
 
 
     const getStages = async () => {
@@ -31,6 +34,11 @@ const HomePage = () => {
         setSelectedStage(stage)
         setSelectedBtn(indx)
         console.log(stage)
+    }
+
+    const navigateToStage = () => {
+        setChosenStage(selectedStage)
+        navigate(`/map/${selectedStage.name}`)
     }
 
 
@@ -65,7 +73,7 @@ const HomePage = () => {
                     )
                 })}
                 <div className="stages-nav-cont">
-                    <button className="stages-nav-btn" onClick={() => navigate(`/map/${selectedStage.name}`)}>Choose</button>
+                    <button className="stages-nav-btn" onClick={() => navigateToStage()}>Choose</button>
                 </div>
                 </div>
                 </div>

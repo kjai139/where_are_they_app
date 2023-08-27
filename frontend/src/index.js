@@ -9,6 +9,7 @@ import {
 } from "react-router-dom"
 import HomePage from './pages/homepage/Homepage';
 import StagePage from './pages/stagepage/Stagepage';
+import MyProvider from './components/context/MyProvider';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <MyProvider>
     <RouterProvider router={router} />
+    </MyProvider>
   </React.StrictMode>
 );
 
