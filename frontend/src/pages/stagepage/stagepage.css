@@ -1,0 +1,27 @@
+.topNav-list {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.targets-list {
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+}
+
+.targets-btn {
+    width: 35px;
+    height: 35px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: inherit;
+    padding: 2rem;
+}
+
+.map-div {
+    width: 100%;
+}
