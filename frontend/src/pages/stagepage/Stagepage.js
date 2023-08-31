@@ -15,7 +15,12 @@ const StagePage = () => {
 
     const [targetsFound, setTargetsFound] = useState(0)
 
+    const [targets, setTargets] = useState([])
+
+    const [isSelectionOpen, setIsSelectionOpen] = useState(false)
+
     const containerRef = useRef(null)
+    const [popUpPosition, setPopUpPosition] = useState({})
 
     const [viewportSize, setViewPortSize] = useState({
         width: window.innerWidth,
@@ -41,6 +46,8 @@ const StagePage = () => {
 
             console.log(response.data.stage)
             setChosenMap(response.data.stage)
+            setTargets(response.data.stage[0].targets)
+            
         } catch (err) {
             console.log(err)
         }
@@ -52,6 +59,17 @@ const StagePage = () => {
     }
 
     const getMouseCords = (e) => {
+        console.log(e.nativeEvent.offsetX)
+        console.log(e.nativeEvent.offsetY)
+
+        if (viewportSize.x > 850) {
+            let adjustedX = (viewportSize.x - 1080) / 2 + e.nativeEvent.offsetX
+
+            setPopUpPosition({x: adjustedX, y:e.nativeEvent.offsetY})
+        } else {
+            setPopUpPosition({x: e.nativeEvent.offsetX, y:e.nativeEvent.offsetY})
+        }
+        
         
         const container = containerRef.current
         if (container) {
@@ -69,8 +87,8 @@ const StagePage = () => {
 
     const handleResize = () => {
         setViewPortSize({
-            width: window.innerWidth,
-            height: window.innerHeight
+            x: window.width,
+            y: window.height,
         })
 
         
@@ -80,9 +98,7 @@ const StagePage = () => {
 
     return (
         <div>
-            <div>VIEWPORT WIDTH:{viewportSize.width}</div>
-            <div>VIEWPORT HEIGHT:{viewportSize.height}</div>
-            <button onClick={getWindowsDimensions}>TEST STUFF</button>
+            
             {chosenMap && 
             <TopTimer targets={chosenMap[0].targets}></TopTimer>
             }
@@ -91,6 +107,18 @@ const StagePage = () => {
                 <div className="stage-box">
                 
                 <img className="map-div" src={chosenMap[0].stageUrl} onClick={getMouseCords} ref={containerRef}></img>
+
+                {
+                targets &&
+                <div className="popUpMenu" style={{
+                    top: popUpPosition.y + 'px',
+                    left: popUpPosition.x + 'px'
+
+                }}>
+                    THIS DA SELECTION MENU
+
+                </div>
+            }
                 
                 
                
@@ -98,6 +126,7 @@ const StagePage = () => {
 
             </div>
             }
+           
             
             
         </div>

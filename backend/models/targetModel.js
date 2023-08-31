@@ -18,6 +18,12 @@ const TargetSchema = new Schema({
     cordsY: {
         type:Number,
         
+    },
+    xRange: {
+        type:Number
+    },
+    yRange: {
+        type:Number
     }
 })
 
