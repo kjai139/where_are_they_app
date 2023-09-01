@@ -13,10 +13,21 @@
     width: 100%;
     max-width: 1000px;
     background: wheat;
+    z-index: 9999;
 }
 
 .popUpMenu {
     position: absolute;
+    background: wheat;
+    padding: 0.5rem;
+    
+}
+
+.popUpImg {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    
 }
 
 .stage-box {

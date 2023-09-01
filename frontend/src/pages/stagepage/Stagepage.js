@@ -58,6 +58,14 @@ const StagePage = () => {
         console.log(window)
     }
 
+    const handleTargetInput = async () => {
+        try {
+
+        } catch (err) {
+            
+        }
+    }
+
     const getMouseCords = (e) => {
         console.log(e.nativeEvent.offsetX)
         console.log(e.nativeEvent.offsetY)
@@ -115,7 +123,23 @@ const StagePage = () => {
                     left: popUpPosition.x + 'px'
 
                 }}>
-                    THIS DA SELECTION MENU
+                   { targets.map((node) => {
+
+
+                        return (
+                            <div key={node._id} style={{
+                                display:'flex',
+                                alignItems:'center',
+                                gap:'5px'
+                            }}>
+                                <img className="popUpImg" src={node.imgUrl}>
+                                </img>
+                                <span>{node.name.charAt(0).toUpperCase() + node.name.slice(1)}</span>
+                            </div>
+                        )
+                    })}
+                    
+                    
 
                 </div>
             }
