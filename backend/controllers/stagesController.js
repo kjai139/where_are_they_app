@@ -19,19 +19,3 @@ exports.home_stages_get = async (req, res) => {
     }
 }
 
-exports.map_stage_get = async (req, res) => {
-    try {
-        const map = await Stages.find({ name: req.query.name }).populate('targets')
-
-        res.json({
-            stage: map
-        })
-
-    } catch (err) {
-        debug(err)
-        res.json({
-            message: err
-        })
-
-    }
-}

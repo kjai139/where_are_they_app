@@ -19,6 +19,8 @@ const StagePage = () => {
 
     const [isSelectionOpen, setIsSelectionOpen] = useState(false)
 
+    const [relativeCords, setRelativeCords] = useState()
+
     const containerRef = useRef(null)
     const [popUpPosition, setPopUpPosition] = useState({})
 
@@ -58,11 +60,14 @@ const StagePage = () => {
         console.log(window)
     }
 
-    const handleTargetInput = async () => {
+    const handleTargetInput = async (id) => {
         try {
+            const response = await axiosInstance.get(`/api/targets/confirm?id=${id}&cordX=${relativeCords.x}&cordY=${relativeCords.y}`)
 
+            console.log(response.data.cords)
+            console.log(response.data.message)
         } catch (err) {
-            
+            console.log(err)
         }
     }
 
@@ -85,6 +90,11 @@ const StagePage = () => {
             
             const relativeX = Math.floor((e.nativeEvent.offsetX / e.target.clientWidth ) * 100)
             const relativeY = Math.floor((e.nativeEvent.offsetY / e.target.clientHeight) * 100)
+
+            setRelativeCords({
+                x: relativeX,
+                y: relativeY
+            })
 
             
             console.log('relative', relativeX, relativeY)
@@ -131,7 +141,7 @@ const StagePage = () => {
                                 display:'flex',
                                 alignItems:'center',
                                 gap:'5px'
-                            }}>
+                            }} onClick={() => handleTargetInput(node._id)}>
                                 <img className="popUpImg" src={node.imgUrl}>
                                 </img>
                                 <span>{node.name.charAt(0).toUpperCase() + node.name.slice(1)}</span>
