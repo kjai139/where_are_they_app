@@ -17,8 +17,15 @@ const TopTimer = ({targets, isGameOver}) => {
     }
 
     useEffect(() => {
-        console.log(targets)
-    }, [])
+        if (!isGameOver) {
+            const timerId = setTimeout(() => {
+                setTimer(timer + 1)
+            }, 1000)
+            console.log(targets)
+    
+            return () => clearTimeout(timerId)
+        }
+    }, [timer])
 
 
 
@@ -49,7 +56,10 @@ const TopTimer = ({targets, isGameOver}) => {
                     })
                 }
                 </li>
-                <li>
+                <li style={{
+                    padding: '1rem',
+                    flex: '1'
+                }}>
                   
                     <h1>{formatTime(timer)}</h1>
                 </li>
@@ -59,11 +69,7 @@ const TopTimer = ({targets, isGameOver}) => {
                 </li>
                 </Link>
             </ul>
-            {/* <div className={`charPopUp ${isCharPopOpen ? null : 'hidden'}`} onClick={() => setCharPopOpen(!isCharPopOpen)} style={{
-                backgroundImage: `url(${bigImg})`
-            }}>
-
-            </div> */}
+            
         </nav>
     )
 }

@@ -23,6 +23,18 @@
     
 }
 
+.menuSelect.found {
+    background-color: lime;
+}
+
+.menuSelect:hover {
+    cursor: pointer;
+}
+
+.found:hover {
+    cursor:not-allowed;
+}
+
 .popUpImg {
     width: 30px;
     height: 30px;

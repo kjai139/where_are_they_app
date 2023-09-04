@@ -13,7 +13,7 @@ const StagePage = () => {
 
     const [chosenMap, setChosenMap] = useState()
 
-    const [targetsFound, setTargetsFound] = useState(0)
+    const [isGameOver, setIsGameOver] = useState(false)
 
     const [targets, setTargets] = useState([])
 
@@ -28,6 +28,8 @@ const StagePage = () => {
         width: window.innerWidth,
         height: window.innerHeight
     })
+
+    const [needRefresh, setneedRefresh] = useState(false)
     
 
     useEffect(() => {
@@ -36,9 +38,15 @@ const StagePage = () => {
         getStage()
         window.addEventListener('resize', handleResize)
 
+       
+       
+        
+
         return () => {
             window.removeEventListener('resize', handleResize)
         }
+
+        
         
     }, [])
 
@@ -48,16 +56,28 @@ const StagePage = () => {
 
             console.log(response.data.stage)
             setChosenMap(response.data.stage)
-            setTargets(response.data.stage[0].targets)
+            const targetAdjusted = response.data.stage[0].targets.map((node) => ({
+                ...node,
+                found: false
+            }))
+            setTargets(targetAdjusted)
             
         } catch (err) {
             console.log(err)
         }
     }
 
-    const getWindowsDimensions = () => {
-        console.log(window.innerWidth)
-        console.log(window)
+    const checkIfGameWon = () => {
+        const allTargetsFound = targets.every(node => node.found === true)
+
+        if (allTargetsFound) {
+            console.log('game won, all found')
+            setIsGameOver(true)
+        } else {
+            console.log('game ongoing')
+            console.log(allTargetsFound)
+            
+        }
     }
 
     const handleTargetInput = async (id) => {
@@ -66,6 +86,21 @@ const StagePage = () => {
 
             console.log(response.data.cords)
             console.log(response.data.message)
+            console.log(response.data.found, 'found')
+            console.log('targets', targets)
+            if (response.data.found) {
+                setTargets((prev) => {
+                    return prev.map((node) => {
+                        return node._id === id ? {...node, found:true} : node
+                    })
+                })
+
+                setTimeout(() => {
+                    checkIfGameWon()
+                }, 1000)
+
+                
+            }
         } catch (err) {
             console.log(err)
         }
@@ -118,11 +153,14 @@ const StagePage = () => {
         <div>
             
             {chosenMap && 
-            <TopTimer targets={chosenMap[0].targets}></TopTimer>
+            <TopTimer targets={targets} isGameOver={isGameOver}></TopTimer>
             }
             {
                 chosenMap &&
                 <div className="stage-box">
+                    <button onClick={checkIfGameWon}>
+                        CHECK GAME CON
+                    </button>
                 
                 <img className="map-div" src={chosenMap[0].stageUrl} onClick={getMouseCords} ref={containerRef}></img>
 
@@ -137,7 +175,7 @@ const StagePage = () => {
 
 
                         return (
-                            <div key={node._id} style={{
+                            <div className={node.found ? 'menuSelect found' : 'menuSelect'} key={node._id} style={{
                                 display:'flex',
                                 alignItems:'center',
                                 gap:'5px'
