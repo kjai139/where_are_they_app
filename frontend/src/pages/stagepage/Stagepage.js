@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import axiosInstance from '../../modules/axiosInstance'
 import TopTimer from "../../components/timer/topTimer";
 import './stagepage.css'
+import GameStartModal from "../../components/modals/gameStart";
 
 
 const StagePage = () => {
@@ -30,6 +31,10 @@ const StagePage = () => {
     })
 
     const [needRefresh, setneedRefresh] = useState(false)
+
+    const [isGameReady, setIsGameReady] = useState(false)
+
+    const [timer, setTimer] = useState(0)
     
 
     useEffect(() => {
@@ -50,6 +55,12 @@ const StagePage = () => {
         
     }, [])
 
+    useEffect(() => {
+        if (isGameReady) {
+            checkIfGameWon()
+        }
+    },[needRefresh])
+
     const getStage = async () => {
         try {
             const response = await axiosInstance.get(`/api/map/get?name=${id}`)
@@ -62,6 +73,7 @@ const StagePage = () => {
             }))
             setTargets(targetAdjusted)
             
+            
         } catch (err) {
             console.log(err)
         }
@@ -69,9 +81,9 @@ const StagePage = () => {
 
     const checkIfGameWon = () => {
         const allTargetsFound = targets.every(node => node.found === true)
-
+        console.log(isGameReady, 'game ready')
         if (allTargetsFound) {
-            console.log('game won, all found')
+            console.log(`game won, all found in ${timer}`)
             setIsGameOver(true)
         } else {
             console.log('game ongoing')
@@ -95,9 +107,7 @@ const StagePage = () => {
                     })
                 })
 
-                setTimeout(() => {
-                    checkIfGameWon()
-                }, 1000)
+                setneedRefresh(prev => !prev)
 
                 
             }
@@ -151,9 +161,14 @@ const StagePage = () => {
 
     return (
         <div>
-            
+            {isGameReady ? null : 
+            <div className="overlay">
+                <GameStartModal targets={targets} closeModal={() => setIsGameReady(true)}></GameStartModal>
+            </div>
+            }
+
             {chosenMap && 
-            <TopTimer targets={targets} isGameOver={isGameOver}></TopTimer>
+            <TopTimer targets={targets} isGameReady={isGameReady} isGameOver={isGameOver} timer={timer} setTimer={setTimer}></TopTimer>
             }
             {
                 chosenMap &&
@@ -166,7 +181,7 @@ const StagePage = () => {
 
                 {
                 targets &&
-                <div className="popUpMenu" style={{
+                <div className={popUpPosition.y ? "popUpMenu" : "popUpMenu hidden"} style={{
                     top: popUpPosition.y + 'px',
                     left: popUpPosition.x + 'px'
 

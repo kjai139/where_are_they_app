@@ -1,3 +1,10 @@
+:root {
+    --borderR: 12px;
+    --uiFont: 'Noto Sans', sans-serif;
+}
+
+
+
 .topNav-list {
     list-style-type: none;
     display: flex;
@@ -13,7 +20,53 @@
     width: 100%;
     max-width: 1000px;
     background: wheat;
+    z-index: 9998;
+}
+
+.overlay {
+    position: fixed;
     z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, 0.5);
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.gamestart-img {
+    max-width: 100px;
+}
+
+.gamestart-targets-div {
+    display: grid;
+    padding: 1rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    
+}
+
+.gamestart-modal {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: var(--borderR);
+}
+
+.gamestart-btn {
+    padding: 1rem;
+    font-family: var(--uiFont);
+    font-size: 1.5rem;
+    background-color: wheat;
+    border: 5px solid;
+}
+
+.gamestart-btn:hover {
+    filter: brightness(85%);
+    cursor: pointer;
 }
 
 .popUpMenu {
@@ -21,6 +74,10 @@
     background: wheat;
     padding: 0.5rem;
     
+}
+
+.popUpMenu.hidden {
+    display: none;
 }
 
 .menuSelect.found {

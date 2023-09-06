@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 
-const TopTimer = ({targets, isGameOver}) => {
+const TopTimer = ({timer, setTimer, targets, isGameReady, isGameOver}) => {
 
-    const [timer, setTimer] = useState(0)
+    
 
     const formatTime = (timeInSeconds) => {
         const seconds = timeInSeconds % 60
@@ -17,7 +17,7 @@ const TopTimer = ({targets, isGameOver}) => {
     }
 
     useEffect(() => {
-        if (!isGameOver) {
+        if (!isGameOver && isGameReady) {
             const timerId = setTimeout(() => {
                 setTimer(timer + 1)
             }, 1000)
@@ -25,7 +25,7 @@ const TopTimer = ({targets, isGameOver}) => {
     
             return () => clearTimeout(timerId)
         }
-    }, [timer])
+    }, [timer, isGameReady, isGameOver])
 
 
 
