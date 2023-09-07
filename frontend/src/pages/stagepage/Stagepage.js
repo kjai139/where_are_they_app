@@ -5,6 +5,8 @@ import axiosInstance from '../../modules/axiosInstance'
 import TopTimer from "../../components/timer/topTimer";
 import './stagepage.css'
 import GameStartModal from "../../components/modals/gameStart";
+import LeaderboardForm from "../../components/modals/leaderboardForm";
+import GameResult from "../../components/modals/gameResult";
 
 
 const StagePage = () => {
@@ -35,6 +37,8 @@ const StagePage = () => {
     const [isGameReady, setIsGameReady] = useState(false)
 
     const [timer, setTimer] = useState(0)
+
+    const [didUserQualify, setDidUserQuality] = useState(false)
     
 
     useEffect(() => {
@@ -79,18 +83,40 @@ const StagePage = () => {
         }
     }
 
-    const checkIfGameWon = () => {
+    const checkIfGameWon = async () => {
         const allTargetsFound = targets.every(node => node.found === true)
         console.log(isGameReady, 'game ready')
         if (allTargetsFound) {
             console.log(`game won, all found in ${timer}`)
             setIsGameOver(true)
+            checkIfQualifyLeaderboard()
+            
         } else {
             console.log('game ongoing')
             console.log(allTargetsFound)
             
         }
     }
+
+    const checkIfQualifyLeaderboard = async () => {
+        try {
+            const response = await axiosInstance.get(`/api/leaderboard/check?timer=${timer}`)
+
+            console.log(response.data.message)
+
+            if (response.data.rank < 10) {
+                console.log(`there are ${response.data.rank} rankings ahead, you've made it onto the leaderboard!`)
+                setDidUserQuality(true)
+            } else {
+                console.log(`there are ${response.data.rank} rankings ahead, you didn't make it onto the leaderboard!`)
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+
 
     const handleTargetInput = async (id) => {
         try {
@@ -167,13 +193,27 @@ const StagePage = () => {
             </div>
             }
 
+            {isGameOver && didUserQualify && 
+            <div className="overlay">
+                <LeaderboardForm timer={timer}></LeaderboardForm>
+            </div>
+            }
+
+            {
+                isGameOver && !didUserQualify &&
+                <div className="overlay">
+                    <GameResult timer={timer}></GameResult>
+                </div>
+                
+            }
+
             {chosenMap && 
             <TopTimer targets={targets} isGameReady={isGameReady} isGameOver={isGameOver} timer={timer} setTimer={setTimer}></TopTimer>
             }
             {
                 chosenMap &&
                 <div className="stage-box">
-                    <button onClick={checkIfGameWon}>
+                    <button onClick={checkIfQualifyLeaderboard}>
                         CHECK GAME CON
                     </button>
                 

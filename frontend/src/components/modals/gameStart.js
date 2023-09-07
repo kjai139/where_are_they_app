@@ -28,7 +28,7 @@ const GameStartModal = ({targets, closeModal}) => {
             })}
             </div>
             
-            <button onClick={closeModal} className="gamestart-btn">Yes, let's start!</button>
+            <button onClick={closeModal} className="gamestart-btn">I'm ready, let's start!</button>
         </div>
     )
 }
