@@ -58,7 +58,7 @@ h1, h2, h3, h4, h5 {
     background: linear-gradient(45deg, #0CCDA3, #C1FCD3);
 }
 
-.stage-btn:hover, .stages-nav-btn:hover {
+.stage-btn:hover, .stages-nav-btn:hover, .leaderboard-btn:hover {
     cursor: pointer;
     background-color: antiquewhite;
     filter: brightness(85%);
@@ -87,6 +87,50 @@ h1, h2, h3, h4, h5 {
     font-weight: bold;
     background: linear-gradient(45deg, #cd0cb3, #fcc1c1);
 }
+
+.leaderboard-cont {
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    padding: 1rem;
+    font-size: 1.5rem;
+}
+
+.leaderboard-headers {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    font-family: var(--headersFont);
+    border-bottom: 5px solid;
+}
+
+.leaderboard-entry {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.leaderboard-btn-cont {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 3rem;
+}
+
+.leaderboard-btn {
+    grid-column: 3;
+    padding: .5rem 1rem;
+    font-family: var(--headersFont);
+    background: linear-gradient(45deg, #0CCDA3, #C1FCD3);
+    border-radius: var(--borderR);
+    border: 5px solid;
+}
+
+.leaderboardForm-result {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 
 
 @media screen and (max-width: 1024px) {

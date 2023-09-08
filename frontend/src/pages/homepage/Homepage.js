@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axiosInstance from '../../modules/axiosInstance'
 import './Homepage.css'
 import StageSelectButton from "../../components/buttons/stageSelectBtn";
@@ -19,13 +19,17 @@ const HomePage = () => {
     const {chosenStage, setChosenStage} = useContext(MyContext)
 
 
+    useEffect(() => {
+        getStages()
+    }, [])
+
     const getStages = async () => {
         try {
             const response = await axiosInstance.get(`/api/stages/get`, {
                 withCredentials: true
             })
 
-            console.log(response.data.stages)
+            // console.log(response.data.stages)
             setStages(response.data.stages)
 
         } catch(err) {
@@ -37,7 +41,7 @@ const HomePage = () => {
         try {
             const response = await axiosInstance.get(`api/leaderboard/get?id=${selectedStage._id}`)
 
-            console.log(response.data.leaderboard)
+            // console.log(response.data.leaderboard)
             setLeaderboard(response.data.leaderboard)
         } catch (err) {
             console.log(err)
@@ -47,7 +51,7 @@ const HomePage = () => {
     const selectStage = (stage, indx) => {
         setSelectedStage(stage)
         setSelectedBtn(indx)
-        console.log(stage)
+        // console.log(stage)
     }
 
     const navigateToStage = () => {
@@ -59,7 +63,7 @@ const HomePage = () => {
     return (
         <div>
             <h1>WHERE ARE THEY?</h1>
-            <button onClick={getStages}>GET STAGES</button>
+            {/* <button onClick={getStages}>GET STAGES</button> */}
             {leaderboard && 
             <Leaderboard leaderboard={leaderboard} closeModal={() => setLeaderboard(null)}></Leaderboard>
             }
@@ -68,7 +72,7 @@ const HomePage = () => {
                 <div className="stages-outer-cont">
                 <div className="stages-left">
                     {selectedStage ? 
-                    <img src={selectedStage.stageUrl} className="selected-stage-div" style={{
+                    <img alt="stage-image" src={selectedStage.stageUrl} className="selected-stage-div" style={{
                         width:'60%'
                     }}>
                     </img> :

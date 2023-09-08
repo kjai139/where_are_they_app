@@ -44,19 +44,30 @@ const LeaderboardForm = ({timer, mapId, onSubmit}) => {
         <div className="leaderboardForm-div">
             {
                 resultMsg ? 
-            <div>
+            <div className="leaderboardForm-result">
                 <h1>{resultMsg}</h1>
-                <button onClick={() => navigate('/')}>Return to main menu</button>
+                <button className="main-menu-btn" onClick={() => navigate('/')}>Return to main menu</button>
             </div>
                 
                 :
-            <div>     
-            <h1>Congrats! You've made the leaderboard!</h1>
+            <div className="leaderboardForm-result">     
+            <h1>Congrats! You've found them all!</h1>
+            <h2>You've made it onto the leaderboard!</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                <label htmlFor="userName">Enter your name:</label>
-                <input type="text" id="userName" onChange={handleInput} value={username}></input>
-                <button>Submit</button>
+                <div style={{
+                    display:'flex',
+                    gap:'.5rem'
+                }}>
+                <label htmlFor="userName" style={{
+                    display:'flex',
+                    alignItems:'center',
+                    fontSize:'1.5rem'
+                }}>Enter your name:</label>
+                <input type="text" id="userName" onChange={handleInput} value={username} autoComplete="off" style={{
+                    fontSize:'1rem',
+                    padding:'5px'
+                }}></input>
+                <button className="leaderboard-submit-btn">Submit</button>
                 </div>
             </form>
             </div> }

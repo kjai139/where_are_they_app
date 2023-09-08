@@ -32,7 +32,7 @@ exports.leaderboard_user_create = async (req, res) => {
 
         await newEntry.save()
         res.json({
-            message: `Saved username: ${req.body.username} and timer ${req.body.timer}`,
+            message: `Your name has been saved to the leaderboards!`,
             success: true
         })
     } catch (err) {

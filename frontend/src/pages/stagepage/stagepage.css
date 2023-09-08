@@ -72,7 +72,7 @@
     gap:.5rem;
 }
 
-.gamestart-btn:hover {
+.gamestart-btn:hover, .main-menu-btn:hover {
     filter: brightness(85%);
     cursor: pointer;
 }
@@ -125,6 +125,20 @@
     background-size: contain;
     background-color: inherit;
     padding: 2rem;
+}
+
+.leaderboard-submit-btn {
+    margin-left: auto;
+    background: linear-gradient(45deg, #0CCDA3, #C1FCD3);
+    padding: .5rem;
+    border: 5px solid;
+    font-family: var(--uiFont);
+}
+
+.main-menu-btn {
+    background: linear-gradient(45deg, #0CCDA3, #C1FCD3);
+    padding: 0.5rem 1rem;
+    font-family: var(--uiFont);
 }
 
 .map-div {

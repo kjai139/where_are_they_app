@@ -43,7 +43,7 @@ const StagePage = () => {
 
     useEffect(() => {
         
-        console.log(id)
+        // console.log(id)
         getStage()
         window.addEventListener('resize', handleResize)
 
@@ -69,7 +69,7 @@ const StagePage = () => {
         try {
             const response = await axiosInstance.get(`/api/map/get?name=${id}`)
 
-            console.log(response.data.stage)
+            // console.log(response.data.stage)
             setChosenMap(response.data.stage)
             const targetAdjusted = response.data.stage[0].targets.map((node) => ({
                 ...node,
@@ -85,7 +85,7 @@ const StagePage = () => {
 
     const checkIfGameWon = async () => {
         const allTargetsFound = targets.every(node => node.found === true)
-        console.log(isGameReady, 'game ready')
+        
         if (allTargetsFound) {
             console.log(`game won, all found in ${timer}`)
             setIsGameOver(true)
@@ -93,7 +93,7 @@ const StagePage = () => {
             
         } else {
             console.log('game ongoing')
-            console.log(allTargetsFound)
+            // console.log(allTargetsFound)
             
         }
     }
@@ -102,13 +102,13 @@ const StagePage = () => {
         try {
             const response = await axiosInstance.get(`/api/leaderboard/check?timer=${timer}`)
 
-            console.log(response.data.message)
+            // console.log(response.data.message)
 
             if (response.data.rank < 10) {
-                console.log(`there are ${response.data.rank} rankings ahead, you've made it onto the leaderboard!`)
+                console.log(`There are ${response.data.rank} people ahead, you've made it onto the leaderboard!`)
                 setDidUserQuality(true)
             } else {
-                console.log(`there are ${response.data.rank} rankings ahead, you didn't make it onto the leaderboard!`)
+                console.log(`there are more than ten people ahead, you didn't make it onto the leaderboard!`)
             }
 
         } catch (err) {
@@ -122,10 +122,10 @@ const StagePage = () => {
         try {
             const response = await axiosInstance.get(`/api/targets/confirm?id=${id}&cordX=${relativeCords.x}&cordY=${relativeCords.y}`)
 
-            console.log(response.data.cords)
-            console.log(response.data.message)
-            console.log(response.data.found, 'found')
-            console.log('targets', targets)
+            // console.log(response.data.cords)
+            // console.log(response.data.message)
+            // console.log(response.data.found, 'found')
+            // console.log('targets', targets)
             if (response.data.found) {
                 setTargets((prev) => {
                     return prev.map((node) => {
@@ -143,8 +143,8 @@ const StagePage = () => {
     }
 
     const getMouseCords = (e) => {
-        console.log(e.nativeEvent.offsetX)
-        console.log(e.nativeEvent.offsetY)
+        // console.log(e.nativeEvent.offsetX)
+        // console.log(e.nativeEvent.offsetY)
 
         if (viewportSize.x > 850) {
             let adjustedX = (viewportSize.x - 1080) / 2 + e.nativeEvent.offsetX
@@ -168,7 +168,7 @@ const StagePage = () => {
             })
 
             
-            console.log('relative', relativeX, relativeY)
+            // console.log('relative', relativeX, relativeY)
         }
 
         
@@ -213,9 +213,9 @@ const StagePage = () => {
             {
                 chosenMap &&
                 <div className="stage-box">
-                    <button onClick={checkIfQualifyLeaderboard}>
+                    {/* <button onClick={checkIfQualifyLeaderboard}>
                         CHECK GAME CON
-                    </button>
+                    </button> */}
                 
                 <img className="map-div" src={chosenMap[0].stageUrl} onClick={getMouseCords} ref={containerRef}></img>
 

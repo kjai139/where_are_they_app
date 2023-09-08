@@ -21,7 +21,7 @@ const TopTimer = ({timer, setTimer, targets, isGameReady, isGameOver}) => {
             const timerId = setTimeout(() => {
                 setTimer(timer + 1)
             }, 1000)
-            console.log(targets)
+            // console.log(targets)
     
             return () => clearTimeout(timerId)
         }
