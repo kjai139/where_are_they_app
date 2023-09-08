@@ -7,7 +7,7 @@ const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 4000
 const mongodb = process.env.MONGO_LOGIN
-const allowedOrigins = ['http://localhost:3000', 'https://where-are-they-app.vercel.app/']
+const allowedOrigins = ['http://localhost:3000', 'https://where-are-they-app.vercel.app']
 
 const main = async () => {
     try {
