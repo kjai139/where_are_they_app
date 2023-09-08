@@ -4,6 +4,7 @@ import './Homepage.css'
 import StageSelectButton from "../../components/buttons/stageSelectBtn";
 import { useNavigate } from "react-router-dom";
 import MyContext from "../../components/context/MyContext";
+import Leaderboard from "../../components/modals/leaderboard";
 
 
 const HomePage = () => {
@@ -12,6 +13,8 @@ const HomePage = () => {
     const [selectedStage, setSelectedStage] = useState()
     const [selectedBtn, setSelectedBtn] = useState()
     const navigate = useNavigate()
+
+    const [leaderboard, setLeaderboard] = useState()
 
     const {chosenStage, setChosenStage} = useContext(MyContext)
 
@@ -26,6 +29,17 @@ const HomePage = () => {
             setStages(response.data.stages)
 
         } catch(err) {
+            console.log(err)
+        }
+    }
+
+    const getLeaderboard = async () => {
+        try {
+            const response = await axiosInstance.get(`api/leaderboard/get?id=${selectedStage._id}`)
+
+            console.log(response.data.leaderboard)
+            setLeaderboard(response.data.leaderboard)
+        } catch (err) {
             console.log(err)
         }
     }
@@ -46,7 +60,9 @@ const HomePage = () => {
         <div>
             <h1>WHERE ARE THEY?</h1>
             <button onClick={getStages}>GET STAGES</button>
-            
+            {leaderboard && 
+            <Leaderboard leaderboard={leaderboard} closeModal={() => setLeaderboard(null)}></Leaderboard>
+            }
             {
                 stages &&
                 <div className="stages-outer-cont">
@@ -73,6 +89,7 @@ const HomePage = () => {
                     )
                 })}
                 <div className="stages-nav-cont">
+                    <button className="stages-nav-btn" onClick={getLeaderboard}>View Leaderboard</button>
                     <button className="stages-nav-btn" onClick={() => navigateToStage()}>Choose</button>
                 </div>
                 </div>

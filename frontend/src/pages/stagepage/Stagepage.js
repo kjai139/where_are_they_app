@@ -195,7 +195,7 @@ const StagePage = () => {
 
             {isGameOver && didUserQualify && 
             <div className="overlay">
-                <LeaderboardForm timer={timer}></LeaderboardForm>
+                <LeaderboardForm timer={timer} mapId={chosenMap[0]._id}></LeaderboardForm>
             </div>
             }
 

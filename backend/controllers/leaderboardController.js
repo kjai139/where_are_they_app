@@ -23,9 +23,35 @@ exports.leaderboard_check = async (req, res) => {
 
 exports.leaderboard_user_create = async (req, res) => {
     try {
-        res.json({
-            message: `received username: ${req.body.username} and timer ${req.body.timer}`
+
+        const newEntry = new Leaderboard({
+            name: req.body.username,
+            time: req.body.timer,
+            stage: req.body.mapId
         })
+
+        await newEntry.save()
+        res.json({
+            message: `Saved username: ${req.body.username} and timer ${req.body.timer}`,
+            success: true
+        })
+    } catch (err) {
+        res.json({
+            message:err
+        })
+    }
+}
+
+exports.leaderboard_get = async (req, res) => {
+    try {
+        const leaderboard = await Leaderboard.find({
+            stage: req.query.id
+        }).sort({ time: 1}).limit(10)
+
+        res.json({
+            leaderboard: leaderboard
+        })
+
     } catch (err) {
         res.json({
             message:err

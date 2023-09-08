@@ -10,6 +10,10 @@ const LeaderboardSchema = new Schema({
     name: {
         type:String,
         required:true
+    },
+    stage: {
+        type:Schema.ObjectId,
+        ref: 'StageModel'
     }
 })
 
