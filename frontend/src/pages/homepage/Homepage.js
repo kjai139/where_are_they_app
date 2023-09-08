@@ -39,7 +39,9 @@ const HomePage = () => {
 
     const getLeaderboard = async () => {
         try {
-            const response = await axiosInstance.get(`api/leaderboard/get?id=${selectedStage._id}`)
+            const response = await axiosInstance.get(`api/leaderboard/get?id=${selectedStage._id}`, {
+                withCredentials:true
+            })
 
             // console.log(response.data.leaderboard)
             setLeaderboard(response.data.leaderboard)
